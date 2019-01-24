@@ -1,0 +1,6 @@
+[submodule "guacamole-client"]
+	path = guacamole-client
+	url = https://github.com/GTE-UVIGO/guacamole-client
+[submodule "guacamole-server"]
+	path = guacamole-server
+	url = https://github.com/GTE-UVIGO/guacamole-server

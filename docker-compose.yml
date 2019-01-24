@@ -1,0 +1,38 @@
+version: '3'
+services:
+  guacamole:
+    build:
+      context: guacamole-client
+      args:
+        USER: ${USER_NAME}
+        UID: ${USER_ID}
+    depends_on:
+      - guacd
+      - mysql
+    environment:
+      - MYSQL_DATABASE=${DB_NAME}
+      - MYSQL_USER=root
+      - MYSQL_PASSWORD=${DB_PASS}
+    restart: unless-stopped
+    volumes:
+      - ${FILES_EXT_PATH}:${FILES_INT_PATH}
+  guacd:
+    build:
+      context: guacamole-server
+      args:
+        USER: ${USER_NAME}
+        UID: ${USER_ID}
+    environment:
+      - MYSQL_ROOT_PASSWORD=${DB_PASS}
+    restart: unless-stopped
+    volumes:
+      - ${FILES_EXT_PATH}:${FILES_INT_PATH}
+  mysql:
+    image: mysql:5.7.24
+    environment:
+      - MYSQL_ROOT_PASSWORD=${DB_PASS}
+    restart: unless-stopped
+    volumes:
+      - guac-db:/var/lib/mysql
+volumes:
+  guac-db:
